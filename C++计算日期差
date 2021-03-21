@@ -1,0 +1,64 @@
+#include <stdio.h>
+
+
+int isyear(int y){
+    int d;
+    d= ((y%4==0&&y%100!=0)||y%400==0) ? 1:0;
+    return d;
+}
+
+int md[13][2]={
+    0,0,
+    31,31,
+    28,29,
+    31,31,
+    30,30,
+    31,31,
+    30,30,
+    31,31,
+    31,31,
+    30,30,
+    31,31,
+    30,30,
+    31,31
+               };
+
+
+struct Date{
+    int d;
+    int m;
+    int y;
+    void nextday(){
+        d++;
+        if(d>md[m][isyear(y)]){
+            d=1;
+            m++;
+            if(m==13){
+                m=1;
+                y++;
+            }
+        }
+    }
+};
+int buf[3001][13][32];
+int main()
+{
+    Date tmp;
+    int cnt=0;
+    tmp.d=1;
+    tmp.m=1;
+    tmp.y=0;
+    while(tmp.y!=3001){
+            buf[tmp.y][tmp.m][tmp.d]=cnt;
+            tmp.nextday();
+            cnt++;
+
+    }
+    int d=24,m=7,y=1999;
+    int days=buf[y][m][d]-buf[1965][1][1];
+    days+=5;
+    int count=days%7;
+    printf("%d %d",count,days);
+
+    return 0;
+}
